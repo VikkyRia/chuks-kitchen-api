@@ -1,6 +1,6 @@
 # Chuks Kitchen API
 
-A backend REST API for **Chuks Kitchen** — a digital food ordering platform built for Trueminds Innovations Ltd.
+A backend REST API for **Chuks Kitchen** - a digital food ordering platform built for Trueminds Innovations Ltd.
 
 Built with **Node.js (Express)** and **SQLite** using a clean MVC architecture.
 
@@ -61,8 +61,8 @@ The SQLite database file (`chuks.db`) is auto-created on first run.
 
 Chuks Kitchen API is a food ordering backend that supports two user types:
 
-**Customer** — can register, browse food, manage a cart, place orders, and track order status.  
-**Admin** — can add, update, and delete food items, and manage order statuses.
+**Customer** - can register, browse food, manage a cart, place orders, and track order status.  
+**Admin** - can add, update, and delete food items, and manage order statuses.
 
 ### How it works end-to-end:
 
@@ -77,26 +77,26 @@ Chuks Kitchen API is a food ordering backend that supports two user types:
 
 ---
 
-## 🔁 Flow Diagrams
+## Flow Diagrams
 
 ### A) User Registration & Verification Flow
 
 ```
-Customer → POST /api/users/signup
-         → Validate (name + email/phone required)
-         → Check for duplicate email/phone
-         → Validate referral code (if provided)
-         → Generate 6-digit OTP (expires in 10 mins)
-         → Save user (is_verified = 0)
-         → Return user_id + OTP
+Customer - POST /api/users/signup
+         - Validate (name + email/phone required)
+         - Check for duplicate email/phone
+         - Validate referral code (if provided)
+         - Generate 6-digit OTP (expires in 10 mins)
+         - Save user (is_verified = 0)
+         - Return user_id + OTP
 
-Customer → POST /api/users/verify
-         → Find user by user_id
-         → Check if already verified
-         → Check OTP expiry
-         → Check OTP match
-         → Set is_verified = 1, clear OTP
-         → Return success
+Customer - POST /api/users/verify
+         - Find user by user_id
+         - Check if already verified
+         - Check OTP expiry
+         - Check OTP match
+         - Set is_verified = 1, clear OTP
+         - Return success
 ```
 
 **Edge Cases Handled:**
@@ -112,24 +112,24 @@ Customer → POST /api/users/verify
 ### B) Food Browsing Flow
 
 ```
-Customer/Admin → GET /api/foods
-              → Optional ?category=rice filter
-              → Returns only available items (is_available = 1)
+Customer/Admin - GET /api/foods
+              - Optional ?category=rice filter
+              - Returns only available items (is_available = 1)
 
-Admin → POST /api/foods
-      → Validate (name, price, category required)
-      → Check for duplicate food name
-      → Save food item
-      → Return created food
+Admin - POST /api/foods
+      - Validate (name, price, category required)
+      - Check for duplicate food name
+      - Save food item
+      - Return created food
 
-Admin → PATCH /api/foods/:id
-      → Find food by ID
-      → Update only provided fields (partial update)
-      → Return updated food
+Admin - PATCH /api/foods/:id
+      - Find food by ID
+      - Update only provided fields (partial update)
+      - Return updated food
 
-Admin → DELETE /api/foods/:id
-      → Find food by ID
-      → Remove from database
+Admin - DELETE /api/foods/:id
+      - Find food by ID
+      - Remove from database
 ```
 
 ---
@@ -137,24 +137,24 @@ Admin → DELETE /api/foods/:id
 ### C) Cart Flow
 
 ```
-Customer → POST /api/cart
-         → Validate user exists and is verified
-         → Check food exists and is available
-         → If item already in cart → increase quantity
-         → Else → add new cart item
-         → Return cart item
+Customer - POST /api/cart
+         - Validate user exists and is verified
+         - Check food exists and is available
+         - If item already in cart → increase quantity
+         - Else → add new cart item
+         - Return cart item
 
-Customer → GET /api/cart/:user_id
-         → JOIN cart with foods table
-         → Calculate subtotal per item
-         → Calculate total price
-         → Warn if any item became unavailable
+Customer - GET /api/cart/:user_id
+         - JOIN cart with foods table
+         - Calculate subtotal per item
+         - Calculate total price
+         - Warn if any item became unavailable
 
-Customer → DELETE /api/cart/:user_id/item/:cart_item_id
-         → Remove single item
+Customer - DELETE /api/cart/:user_id/item/:cart_item_id
+         - Remove single item
 
-Customer → DELETE /api/cart/:user_id/clear
-         → Remove all items
+Customer - DELETE /api/cart/:user_id/clear
+         - Remove all items
 ```
 
 **Edge Cases Handled:**
@@ -168,34 +168,34 @@ Customer → DELETE /api/cart/:user_id/clear
 ### D) Order Flow
 
 ```
-Customer → POST /api/orders
-         → Validate user exists and is verified
-         → Fetch cart items (JOIN with foods)
-         → Check cart is not empty
-         → Check no unavailable items exist
-         → Calculate total price
-         → BEGIN TRANSACTION:
+Customer - POST /api/orders
+         - Validate user exists and is verified
+         - Fetch cart items (JOIN with foods)
+         - Check cart is not empty
+         - Check no unavailable items exist
+         - Calculate total price
+         - BEGIN TRANSACTION:
              1. Create order record (status = pending)
              2. Save each item as order_item
              3. Clear the cart
-         → END TRANSACTION
-         → Return order details
+         - END TRANSACTION
+         - Return order details
 
-Admin → PATCH /api/orders/:id/status
-      → Validate status is one of the allowed values
-      → Check order is not already completed/cancelled
-      → Update status
+Admin - PATCH /api/orders/:id/status
+      - Validate status is one of the allowed values
+      - Check order is not already completed/cancelled
+      - Update status
 
-Customer → PATCH /api/orders/:id/cancel
-         → Check order belongs to this user
-         → Check order is still pending
-         → Set status to cancelled
+Customer - PATCH /api/orders/:id/cancel
+         - Check order belongs to this user
+         - Check order is still pending
+         - Set status to cancelled
 ```
 
 **Order Status Lifecycle:**
 ```
-pending → confirmed → preparing → out_for_delivery → completed
-                                                   ↘ cancelled
+pending => confirmed => preparing => out_for_delivery => completed
+                                                   \> cancelled
 ```
 
 **Edge Cases Handled:**
@@ -208,7 +208,7 @@ pending → confirmed → preparing → out_for_delivery → completed
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Users
 
@@ -419,5 +419,6 @@ The MVC architecture used here makes this transition easier — swapping SQLite 
 ---
 
 ## Author
+Victoria Alayemie
 
-Built as part of the **Trueminds Innovations Backend Developer Internship**  
+Built this as part of the **Trueminds Innovations Backend Developer Internship**  
