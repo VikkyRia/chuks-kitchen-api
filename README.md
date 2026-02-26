@@ -376,17 +376,17 @@ users ──< orders ──< order_items >── foods
 
 ## Assumptions
 
-1. **OTP delivery** — In this implementation, the OTP is returned directly in the API response for testing purposes. In production, it would be sent via email (using Nodemailer or SendGrid) or SMS (using Termii or Twilio).
+1. **OTP delivery** - In this implementation, the OTP is returned directly in the API response for testing purposes. In production, it would be sent via email (using Nodemailer or SendGrid) or SMS (using Termii or Twilio).
 
-2. **Authentication** — No JWT authentication is implemented as per the deliverable instructions. In production, a token-based auth system would be added.
+2. **Authentication** - No JWT authentication is implemented as per the deliverable instructions. In production, a token-based auth system would be added.
 
-3. **Payment** — Payment logic is assumed only. The order is created immediately with status `pending` without actual payment processing.
+3. **Payment** - Payment logic is assumed only. The order is created immediately with status `pending` without actual payment processing.
 
-4. **Admin role** — There is no admin login. Any request to admin endpoints (add food, update status) is treated as authorized. In production, role-based middleware would protect these routes.
+4. **Admin role** - There is no admin login. Any request to admin endpoints (add food, update status) is treated as authorized. In production, role-based middleware would protect these routes.
 
-5. **Referral code** — A user's referral code is their own user ID. This is a simple implementation; a production system might generate a shorter unique code.
+5. **Referral code** - A user's referral code is their own user ID. This is a simple implementation; a production system might generate a shorter unique code.
 
-6. **Price snapshot** — When an order is placed, the price is saved in `order_items` at the time of ordering. This means if the admin changes a food price later, existing orders are not affected.
+6. **Price snapshot** - When an order is placed, the price is saved in `order_items` at the time of ordering. This means if the admin changes a food price later, existing orders are not affected.
 
 ---
 
